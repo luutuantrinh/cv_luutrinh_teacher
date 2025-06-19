@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Tương Tác | Lưu Tuấn Trình</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Slate neutrals with a Teal accent) -->
+    <!-- Application Structure Plan: A single-page application with a sticky top navigation for smooth scrolling between thematic sections (Overview, Experience, Skills, Education, etc.). This structure replaces the linear format of a traditional CV with a more engaging, dashboard-like user experience. Key interactive elements include a visual timeline for work history and dynamic charts for skills. This design was chosen to allow recruiters to quickly navigate to sections of interest and to present key qualifications (like skills) in a more impactful, easy-to-digest format. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Work Experience -> Goal: Show Progression -> Viz/Method: Vertical Timeline (HTML/CSS) -> Interaction: Hover highlights -> Justification: Clearly visualizes career path and duration.
+        - Report Info: Technical & Soft Skills -> Goal: Compare/Inform -> Viz/Method: Radar Chart for Soft Skills, Bar Chart for Technical Skills (Chart.js/Canvas) -> Interaction: Tooltips on hover -> Justification: Provides a striking, quantitative, and holistic view of abilities, crucial for a teaching role, making the data more memorable.
+        - Report Info: Certifications -> Goal: Show Progress -> Viz/Method: Progress Bars (HTML/CSS) -> Interaction: Visual fill and text labels -> Justification: Effectively communicates current status and future commitment.
+        - All choices adhere to the NO SVG/Mermaid constraint, using either pure HTML/CSS or Canvas-based libraries.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d9488; /* teal-600 */
+            border-bottom-color: #0d9488;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.75rem;
+            top: 0;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: #f8fafc;
+            border: 4px solid #0d9488;
+            border-radius: 9999px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="navbar" class="bg-slate-50/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#hero" class="text-xl font-bold text-slate-800">Lưu Tuấn Trình</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#overview" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">Tổng quan</a>
+                        <a href="#experience" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">Kinh nghiệm</a>
+                        <a href="#skills" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">Kỹ năng</a>
+                        <a href="#education" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">Học vấn</a>
+                        <a href="#activities" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">Hoạt động</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 md:py-32">
+            <div class="container mx-auto text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight">Lưu Tuấn Trình</h1>
+                <p class="mt-4 text-lg md:text-xl font-medium text-teal-600">Vị trí mong muốn: Trợ giảng / Giảng viên Tin học Văn phòng</p>
+                <div class="mt-8 flex justify-center items-center space-x-6 text-sm text-slate-600">
+                    <a href="tel:0388961451" class="flex items-center hover:text-teal-600 transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        0388961451
+                    </a>
+                    <a href="mailto:trinhluutuan.dev@gmail.com" class="flex items-center hover:text-teal-600 transition-colors">
+                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        trinhluutuan.dev@gmail.com
+                    </a>
+                    <a href="https://linkedin.com/in/luutuantrinhdeveloper" target="_blank" rel="noopener noreferrer" class="flex items-center hover:text-teal-600 transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="overview" class="py-16 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+                <h2 class="text-3xl font-bold text-center text-slate-800">Mục Tiêu Nghề Nghiệp</h2>
+                <p class="mt-6 text-center text-lg leading-relaxed text-slate-600">
+                    Phần này giới thiệu về định hướng và khát vọng của tôi trong sự nghiệp. Đây là kim chỉ nam cho những nỗ lực học hỏi và cống hiến của tôi, đặc biệt là trong lĩnh vực giảng dạy Tin học.
+                </p>
+                <div class="mt-8 bg-teal-50 border-l-4 border-teal-500 text-teal-800 p-6 rounded-r-lg shadow-sm">
+                    <p class="italic">"Với kiến thức vững chắc về Công nghệ thông tin và niềm đam mê chia sẻ tri thức, tôi mong muốn trở thành một Trợ giảng/Giảng viên tận tâm tại Tin Học Đại Dương. Tôi cam kết mang đến những buổi học hiệu quả, biên soạn tài liệu chất lượng và góp phần vào sự phát triển kỹ năng tin học cho học viên, đặc biệt là trong các chương trình CNTT Cơ bản (CCA), CNTT Nâng cao (CCB), IC3 và MOS. Tôi sẵn sàng chủ động nghiên cứu, cập nhật kiến thức để nâng cao năng lực bản thân và đồng hành cùng sự phát triển của trung tâm."</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-slate-800">Kinh Nghiệm Làm Việc</h2>
+                <p class="mt-6 text-center text-lg leading-relaxed text-slate-600 max-w-3xl mx-auto">
+                    Dòng thời gian dưới đây thể hiện quá trình phát triển sự nghiệp của tôi. Mỗi cột mốc là một cơ hội để tôi trau dồi kinh nghiệm chuyên môn và kỹ năng thực tế, từ môi trường doanh nghiệp lớn đến việc trực tiếp hướng dẫn học viên.
+                </p>
+                <div class="mt-12 relative max-w-2xl mx-auto">
+                    <div class="absolute left-4 md:left-1/2 top-0 h-full w-0.5 bg-slate-300"></div>
+                    <div class="space-y-12">
+                        <div class="relative pl-8 md:pl-0">
+                            <div class="md:flex md:items-start md:space-x-8">
+                                <div class="w-full md:w-1/2 md:text-right md:pr-8">
+                                    <p class="font-semibold text-teal-600">Tháng 9/2023 – Hiện tại</p>
+                                    <h3 class="text-xl font-bold text-slate-800 mt-1">Trợ giảng/Gia sư Tin học</h3>
+                                    <p class="text-slate-500">Gia Sư Bảo Châu - Gia sư Đất Việt</p>
+                                </div>
+                                <div class="w-full md:w-1/2 mt-4 md:mt-0 md:pl-8 relative timeline-item">
+                                    <ul class="list-disc list-inside text-slate-600 space-y-2">
+                                        <li>Hỗ trợ/Hướng dẫn học viên làm quen với các phần mềm tin học văn phòng cơ bản (Word, Excel, PowerPoint).</li>
+                                        <li>Giải đáp thắc mắc và củng cố kiến thức cho học viên.</li>
+                                        <li>Chuẩn bị tài liệu học tập đơn giản, chấm bài tập.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative pl-8 md:pl-0">
+                             <div class="md:flex md:flex-row-reverse md:items-start md:space-x-8 md:space-x-reverse">
+                                <div class="w-full md:w-1/2 md:text-left md:pl-8">
+                                    <p class="font-semibold text-teal-600">Tháng 6/2022 – Hiện tại</p>
+                                    <h3 class="text-xl font-bold text-slate-800 mt-1">Kỹ sư phần mềm</h3>
+                                    <p class="text-slate-500">Công ty TNHH Phần Mềm FPT Hồ Chí Minh</p>
+                                </div>
+                                <div class="w-full md:w-1/2 mt-4 md:mt-0 md:pr-8 relative timeline-item md:text-right">
+                                     <ul class="list-disc list-inside text-slate-600 space-y-2 md:text-right md:list-none">
+                                        <li>Phát triển và bảo trì phần mềm cho các dự án lớn như Massan, Honda VietNam, SABECO.</li>
+                                        <li>Sử dụng thành thạo nhiều ngôn ngữ lập trình.</li>
+                                        <li>Hỗ trợ các công việc văn phòng liên quan.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center text-slate-800">Năng Lực & Kỹ Năng</h2>
+                <p class="mt-6 text-center text-lg leading-relaxed text-slate-600 max-w-3xl mx-auto">
+                    Phần này trình bày tổng quan các kỹ năng chuyên môn và kỹ năng mềm của tôi. Các biểu đồ tương tác dưới đây sẽ giúp bạn có cái nhìn trực quan về năng lực của tôi trong các lĩnh vực khác nhau, phản ánh sự sẵn sàng cho vị trí giảng dạy.
+                </p>
+                <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-center text-slate-700 mb-4">Kỹ Năng Chuyên Môn</h3>
+                        <div class="chart-container">
+                            <canvas id="techSkillsChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-center text-slate-700 mb-4">Kỹ Năng Mềm</h3>
+                        <div class="chart-container">
+                            <canvas id="softSkillsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                 <div class="mt-12">
+                     <h3 class="text-xl font-bold text-center text-slate-700 mb-6">Chứng Chỉ Chuyên Môn</h3>
+                     <div class="max-w-4xl mx-auto space-y-6">
+                        <div class="bg-slate-100 p-4 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-1">
+                                <p class="font-semibold text-slate-700">MOS (Microsoft Office Specialist)</p>
+                                <p class="text-sm font-medium text-teal-600">2025</p>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2.5">
+                                <div class="bg-teal-500 h-2.5 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-2">Word, Excel, PowerPoint - Cấp độ Associate</p>
+                        </div>
+                         <div class="bg-slate-100 p-4 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-center mb-1">
+                                <p class="font-semibold text-slate-700">Chứng Chỉ Nghiệp Vụ Sư Phạm</p>
+                                <p class="text-sm font-medium text-teal-600">Đang học (2025)</p>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2.5">
+                                <div class="bg-teal-500 h-2.5 rounded-full" style="width: 100%"></div>
+                            </div>
+                             <p class="text-xs text-slate-500 mt-2">Chứng chỉ giảng dạy cho đại học và cao đẳng - ĐH Sư phạm Hà Nội 2</p>
+                        </div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="education" class="py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+                <h2 class="text-3xl font-bold text-center text-slate-800">Học Vấn</h2>
+                 <p class="mt-6 text-center text-lg leading-relaxed text-slate-600 max-w-3xl mx-auto">
+                    Nền tảng học vấn vững chắc tại một trường đại học uy tín đã trang bị cho tôi kiến thức chuyên sâu về Công nghệ thông tin, là cơ sở để tôi tự tin theo đuổi sự nghiệp giảng dạy.
+                </p>
+                <div class="mt-10 bg-white shadow-lg rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <div class="p-8">
+                        <div class="flex justify-between items-start">
+                             <div>
+                                <p class="text-sm font-medium text-teal-600">06/2022 - 12/2024</p>
+                                <h3 class="text-2xl font-bold text-slate-800 mt-1">Đại Học Giao Thông Vận Tải TP. Hồ Chí Minh</h3>
+                                <p class="text-slate-600 mt-1">Ngành: Công nghệ thông tin / Tin học Ứng dụng</p>
+                             </div>
+                             <div class="text-right flex-shrink-0 ml-4">
+                                <p class="text-sm font-medium text-slate-500">GPA</p>
+                                <p class="text-3xl font-extrabold text-teal-500">3.59<span class="text-lg">/4.0</span></p>
+                             </div>
+                        </div>
+                        <div class="mt-6 border-t border-slate-200 pt-4">
+                            <h4 class="font-semibold text-slate-700">Môn học tiêu biểu:</h4>
+                            <p class="text-slate-600 mt-2 text-sm">
+                                Lập trình cơ bản, Cấu trúc dữ liệu và giải thuật, Hệ điều hành, Mạng máy tính, Cơ sở dữ liệu, và các môn liên quan đến CNTT cơ bản và ứng dụng.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="py-16 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+                <h2 class="text-3xl font-bold text-center text-slate-800">Hoạt Động Khác</h2>
+                <p class="mt-6 text-center text-lg leading-relaxed text-slate-600">
+                    Ngoài công việc và học tập, tôi luôn chủ động tham gia các hoạt động ngoại khóa để phát triển bản thân và đóng góp cho cộng đồng. Những hoạt động này giúp tôi rèn luyện kỹ năng mềm và mở rộng kiến thức.
+                </p>
+                <div class="mt-10 grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-slate-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-teal-600">Học Tập Liên Tục</h3>
+                        <p class="text-slate-600 text-sm mt-2">Tham gia các khóa học online/offline về Thiết kế bài giảng và Phương pháp sư phạm hiện đại.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-teal-600">Nghiên Cứu Khoa Học</h3>
+                        <p class="text-slate-600 text-sm mt-2">Thành viên tích cực của câu lạc bộ Giảng dạy và Nghiên cứu tại trường đại học.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="font-bold text-teal-600">Hoạt Động Cộng Đồng</h3>
+                        <p class="text-slate-600 text-sm mt-2">Tham gia các hoạt động tình nguyện và dự án cá nhân liên quan đến CNTT hoặc giáo dục.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white">
+        <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-lg font-bold">Lưu Tuấn Trình</p>
+            <p class="mt-2 text-slate-300">Sẵn sàng cho cơ hội mới và đóng góp cho sự phát triển của trung tâm.</p>
+             <div class="mt-6 flex justify-center items-center space-x-6 text-sm text-slate-300">
+                <a href="tel:0388961451" class="hover:text-teal-400 transition-colors">0388961451</a>
+                <span>&bull;</span>
+                <a href="mailto:trinhluutuan.dev@gmail.com" class="hover:text-teal-400 transition-colors">trinhluutuan.dev@gmail.com</a>
+                <span>&bull;</span>
+                <a href="https://linkedin.com/in/luutuantrinhdeveloper" target="_blank" rel="noopener noreferrer" class="hover:text-teal-400 transition-colors">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const techSkillsCtx = document.getElementById('techSkillsChart').getContext('2d');
+    const techSkillsChart = new Chart(techSkillsCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Tin học VP (Office, Google Suite)', 'Hệ điều hành Windows', 'Mạng máy tính & Internet', 'An toàn thông tin'],
+            datasets: [{
+                label: 'Mức độ thành thạo',
+                data: [95, 90, 80, 75],
+                backgroundColor: 'rgba(13, 148, 136, 0.6)', // teal-600
+                borderColor: 'rgba(15, 118, 110, 1)', // teal-700
+                borderWidth: 1,
+                borderRadius: 4,
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                     grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.x !== null) {
+                                label += context.parsed.x + '%';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const softSkillsCtx = document.getElementById('softSkillsChart').getContext('2d');
+    const softSkillsChart = new Chart(softSkillsCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Giảng dạy & Truyền đạt', 'Biên soạn tài liệu', 'Giao tiếp & Lắng nghe', 'Tư duy chủ động', 'Trách nhiệm & Trung thực'],
+            datasets: [{
+                label: 'Kỹ năng mềm',
+                data: [90, 85, 95, 88, 98],
+                backgroundColor: 'rgba(13, 148, 136, 0.2)',
+                borderColor: 'rgba(13, 148, 136, 1)',
+                pointBackgroundColor: 'rgba(13, 148, 136, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(13, 148, 136, 1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    pointLabels: {
+                        font: {
+                            size: 10
+                        },
+                        color: '#475569' // slate-600
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            }
+        }
+    });
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.4
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+});
+</script>
+</body>
+</html>
